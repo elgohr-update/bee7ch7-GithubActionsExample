@@ -1,0 +1,23 @@
+version: 2.1
+
+jobs:
+  build:
+    docker:
+      - image: circleci/golang:1.15
+        auth:
+          username: bee7ch
+          password: $DOCKERHUB_PASSWORD
+    steps:
+      - checkout
+      - setup_remote_docker:
+         version: 20.10.7
+      - run: |
+          TAG=0.1.$CIRCLE_BUILD_NUM
+          docker build -t bee7ch/circleci-homework3:$TAG .
+          docker login -u bee7ch -p $DOCKERHUB_PASSWORD
+          docker push bee7ch/circleci-homework3:$TAG
+workflows:
+ version: 2
+ build:
+    jobs:
+      - build
