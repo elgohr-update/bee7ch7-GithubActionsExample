@@ -15,6 +15,14 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     
+    - name: preparation
+      id: prep
+      run: |
+          branch=${GITHUB_REF##*/}
+          sha=${GITHUB_SHA::8}
+          ts=$(date +%s)
+          echo "::set-output name=BUILD_ID::${branch}-${sha}-${ts}"
+    
     - name: Publish to Registry
       id: echo ::save-state name=RELEASE_VERSION::$(echo ${GITHUB_REF:10})
       uses: elgohr/Publish-Docker-Github-Action@3.04
@@ -22,4 +30,4 @@ jobs:
         name: bee7ch/githubactions
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
-        tags: "latest,${{ env.STATE_RELEASE_VERSION }}"
+        tags: "latest,${{ steps.prep.outputs.BUILD_ID }},${{ github.sha }}-${{ github.run_number }}"
