@@ -24,7 +24,6 @@ jobs:
           echo "::set-output name=BUILD_ID::${branch}-${sha}-${ts}"
     
     - name: Publish to Registry
-      id: echo ::save-state name=RELEASE_VERSION::$(echo ${GITHUB_REF:10})
       uses: elgohr/Publish-Docker-Github-Action@3.04
       with:
         name: bee7ch/githubactions
