@@ -24,7 +24,7 @@ jobs:
           echo "::set-output name=BUILD_ID::${branch}-${sha}-${ts}"
     
     - name: Publish to Registry
-      uses: elgohr/Publish-Docker-Github-Action@3.04
+      uses: elgohr/Publish-Docker-Github-Action@v5
       with:
         name: bee7ch/githubactions
         username: ${{ secrets.DOCKER_USERNAME }}
